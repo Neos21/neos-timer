@@ -1,0 +1,32 @@
+name: Deploy To GitHub Pages
+on:
+  # On Commit
+  push:
+    branches:
+      - master
+  # Manual
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Setup npm
+        run : npm install
+        env :
+          NG_CLI_ANALYTICS: ci
+      - name: Build
+        run : npm run build
+        env :
+          NG_CLI_ANALYTICS: ci
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          # GITHUB_TOKEN Secret は自動的に生成される
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist

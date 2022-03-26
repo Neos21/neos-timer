@@ -1,1 +1,46 @@
-<p>{{ title }}</p>
+<div id="header">
+  <h1><a href="https://github.com/Neos21/neos-timer" target="_blank">Neo's Timer</a></h1>
+  <div><a href="https://neos21.net/" target="_blank">Neo's World</a></div>
+</div>
+
+<form [formGroup]="timersForm">
+  <ol formArrayName="timers">
+    <li *ngFor="let timer of timers.controls; let i = index" [formGroupName]="i">
+      <div class="form-row">
+        <label><input type="number" formControlName="seconds" (blur)="onBlurFormatSeconds(timer)" placeholder="Seconds" class="form-row-seconds" inputmode="numeric" min="0" max="3600" step="5"> Sec</label>
+        <input type="text" formControlName="memo" placeholder="Memo" class="form-row-memo">
+        <div class="form-row-buttons">
+          <button type="button" (click)="moveUp(i)"    [disabled]="currentState !== states.stopping || i === 0"                class="form-row-button">↑</button>
+          <button type="button" (click)="moveDown(i)"  [disabled]="currentState !== states.stopping || i >= timers.length - 1" class="form-row-button">↓</button>
+          <button type="button" (click)="insertRow(i)" [disabled]="currentState !== states.stopping"                           class="form-row-button">+</button>
+          <button type="button" (click)="removeRow(i)" [disabled]="currentState !== states.stopping || timers.length <= 1"     class="form-row-button">-</button>
+        </div>
+      </div>
+    </li>
+  </ol>
+</form>
+
+<div class="control-buttons">
+  <span class="control-buttons-group">
+    <button type="button" (click)="start()"   [disabled]="currentState === states.starting || timersForm.invalid">Start</button>
+    <button type="button" (click)="stop()"    [disabled]="currentState === states.stopping">Stop</button>
+    <button type="button" (click)="restart()" [disabled]="currentState === states.starting || timersForm.invalid">ReStart</button>
+  </span>
+  <span class="control-buttons-group">
+    <button type="button" (click)="back()" [disabled]="currentState !== states.starting || face.currentIndex === 0">Back</button>
+    <button type="button" (click)="next()" [disabled]="currentState !== states.starting || face.currentIndex === timers.length - 1">Next</button>
+  </span>
+  <span class="control-buttons-group">
+    <button type="button" (click)="save()"  [disabled]="currentState !== states.stopping || timersForm.invalid">Save</button>  <!-- Save・Load で LocalStorage に保存・ロードしたい -->
+    <button type="button" (click)="load()"  [disabled]="currentState !== states.stopping || !hasLocalStorageValue">Load</button>
+    <button type="button" (click)="reset()" [disabled]="currentState !== states.stopping">Reset</button>
+  </span>
+</div>
+
+<hr>
+
+<div class="face-time">{{ face.minutes }} : {{ face.seconds }}</div>
+<div class="face-memo" *ngIf="face.currentIndex != null">
+  [{{ face.currentIndex + 1 }}]
+  {{ face.memo }}
+</div>

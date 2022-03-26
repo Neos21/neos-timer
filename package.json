@@ -5,8 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --base-href ./",
-    "watch": "ng build --watch --configuration development"
+    "build": "ng build --base-href ./"
   },
   "author": "Neo <neos21@gmail.com> (https://neos21.net/)",
   "license": "MIT",

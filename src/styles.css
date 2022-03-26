@@ -1,1 +1,192 @@
-/* You can add global styles to this file, and also import other style files */
+/*
+ * Font made from oNline Web Fonts is licensed by CC BY 3.0 http://www.onlinewebfonts.com
+ * https://www.onlinewebfonts.com/download/84cb021d5f9af287ffff84b61beef6dc
+ * https://db.onlinewebfonts.com/c/84cb021d5f9af287ffff84b61beef6dc?family=clockicons
+ */
+@font-face {
+  font-family: "clockicons";
+  src: url("http://db.onlinewebfonts.com/t/84cb021d5f9af287ffff84b61beef6dc.eot"); /* IE9 */
+  src: url("/assets/clockicons.woff2") format("woff2"),  /* Local Woff2 */
+       url("http://db.onlinewebfonts.com/t/84cb021d5f9af287ffff84b61beef6dc.eot?#iefix") format("embedded-opentype"),  /* IE6-IE8 */
+       url("http://db.onlinewebfonts.com/t/84cb021d5f9af287ffff84b61beef6dc.woff2") format("woff2"),  /* Chrome Firefox */
+       url("http://db.onlinewebfonts.com/t/84cb021d5f9af287ffff84b61beef6dc.woff") format("woff"),  /* Fhrome Firefox */
+       url("http://db.onlinewebfonts.com/t/84cb021d5f9af287ffff84b61beef6dc.ttf") format("truetype"),  /* Chrome Firefox Opera Safari Android iOS 4.2+ */
+       url("http://db.onlinewebfonts.com/t/84cb021d5f9af287ffff84b61beef6dc.svg#clockicons") format("svg");  /* iOS 4.1- */
+}
+
+/* 全般 */
+*, ::before, ::after {
+  box-sizing: border-box;
+}
+
+html {
+  color: #000;
+  font-family: sans-serif;
+  overflow: hidden scroll;
+  overflow-wrap: break-word;
+  text-decoration-skip-ink: none;
+  -webkit-text-decoration-skip: objects;
+  line-height: 1.5;
+  background: #fff;
+  cursor: default;
+}
+
+body {
+  margin: 0;
+  padding: .5rem !important;
+}
+
+/* フォーム部品 */
+input, button {
+  margin: 0;
+  padding: .1rem .5rem;
+  font-size: 16px;
+  outline: 0;
+  border: 1px solid #c0c0c0;
+  border-radius: 4px;
+}
+
+input:hover, input:focus, button:hover, button:focus {
+  border-color: #909090;
+}
+
+input {
+  background: #fff;
+}
+
+button {
+  background: #ececec;
+  cursor: pointer;
+}
+
+button:hover, button:focus {
+  background: #e0e0e0;
+}
+
+button[disabled] {
+  background: #dcdcdc;
+  cursor: not-allowed;
+}
+
+button[disabled]:hover, button[disabled]:focus {
+  background: #d0d0d0;
+}
+
+/* ヘッダ */
+#header {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(2,auto);
+  justify-content: space-between;
+  align-items: center;
+  column-gap: .5rem;
+  line-height: 1;
+  white-space: nowrap;
+  background: var(--nn-colour-blue);
+}
+
+#header h1 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+#header div {
+  font-size: .85rem;
+}
+
+#header a {
+  color: #009;
+  text-decoration: none;
+}
+
+#header a:hover, #header a:focus {
+  text-decoration: underline;
+}
+
+/* フォーム */
+ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+/* フォーム1行 */
+li:not(:last-child) {
+  margin-bottom: .15rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  column-gap: .5rem;
+}
+
+/* 秒数入力欄 */
+label {
+  padding-right: .2rem;
+}
+
+.form-row-seconds {
+  width: 5em;
+  text-align: right;
+}
+
+.form-row-seconds.ng-invalid {
+  border-color: #f00;
+}
+
+/* メモ入力欄 */
+.form-row-memo {
+  width: 100%;
+}
+
+/* 1行のボタン類 */
+.form-row-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: .2rem;
+}
+
+.form-row-button {
+  width: 2em;
+  padding-right: 0;
+  padding-left : 0;
+  text-align: center;
+}
+
+/* ボタン類の間隔をイイカンジに開ける */
+.control-buttons {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.control-buttons .control-buttons-group:not(:first-child) {
+  margin-left: 1rem;
+}
+
+.control-buttons-group button:not(:first-child) {
+  margin-left: .25rem;
+}
+
+/* 罫線 */
+hr {
+  margin: 2rem 0 1.5rem;
+  border: 0;
+  border-bottom: 1px solid #c0c0c0;
+}
+
+/* 時計プレビュー表示 */
+.face-time {
+  font-family: clockicons, monospace;
+  font-size: 7rem;
+  text-align: center;
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.face-memo {
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
