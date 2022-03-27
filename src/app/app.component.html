@@ -1,46 +1,51 @@
-<div id="header">
-  <h1><a href="https://github.com/Neos21/neos-timer" target="_blank">Neo's Timer</a></h1>
-  <div><a href="https://neos21.net/" target="_blank">Neo's World</a></div>
-</div>
-
-<form [formGroup]="timersForm">
-  <ol formArrayName="timers">
-    <li *ngFor="let timer of timers.controls; let i = index" [formGroupName]="i">
-      <div class="form-row">
-        <label><input type="number" formControlName="seconds" (blur)="onBlurFormatSeconds(timer)" placeholder="Seconds" class="form-row-seconds" inputmode="numeric" min="0" max="3600" step="5"> Sec</label>
-        <input type="text" formControlName="memo" placeholder="Memo" class="form-row-memo">
-        <div class="form-row-buttons">
-          <button type="button" (click)="moveUp(i)"    [disabled]="currentState !== states.stopping || i === 0"                class="form-row-button">↑</button>
-          <button type="button" (click)="moveDown(i)"  [disabled]="currentState !== states.stopping || i >= timers.length - 1" class="form-row-button">↓</button>
-          <button type="button" (click)="insertRow(i)" [disabled]="currentState !== states.stopping"                           class="form-row-button">+</button>
-          <button type="button" (click)="removeRow(i)" [disabled]="currentState !== states.stopping || timers.length <= 1"     class="form-row-button">-</button>
+<form [formGroup]="timersForm" class="wrapper">
+  <div class="sticky">
+    <div class="header">
+      <h1 class="header-title"><a href="https://github.com/Neos21/neos-timer" target="_blank">Neo's Timer</a></h1>
+      <div class="header-link"><a href="https://neos21.net/" target="_blank">Neo's World</a></div>
+    </div>
+    
+    <div class="face-time">{{ face.minutes }} : {{ face.seconds }}</div>
+    <div class="face-memo">
+      <ng-container *ngIf="face.currentIndex != null; else elseBlock">[{{ face.currentIndex + 1 }}] {{ face.memo }}</ng-container>
+      <ng-template #elseBlock>-</ng-template>
+    </div>
+    
+    <div class="controls">
+      <span class="control-group">
+        ♪
+        <label><input type="radio" formControlName="selectedAudio" [value]="audios.one.name">1</label>
+        <label><input type="radio" formControlName="selectedAudio" [value]="audios.two.name">2</label>
+      </span>
+      <span class="control-group">
+        <button type="button" (click)="start()"   [disabled]="currentState === states.starting || timersForm.invalid">Start</button>
+        <button type="button" (click)="stop()"    [disabled]="currentState === states.stopping">Stop</button>
+        <button type="button" (click)="restart()" [disabled]="currentState === states.starting || timersForm.invalid">ReStart</button>
+      </span>
+      <span class="control-group">
+        <button type="button" (click)="back()" [disabled]="currentState !== states.starting || face.currentIndex === 0">Back</button>
+        <button type="button" (click)="next()" [disabled]="currentState !== states.starting || face.currentIndex === timers.length - 1">Next</button>
+      </span>
+      <span class="control-group">
+        <button type="button" (click)="save()"  [disabled]="currentState !== states.stopping || timersForm.invalid">Save</button>  <!-- Save・Load で LocalStorage に保存・ロードしたい -->
+        <button type="button" (click)="load()"  [disabled]="currentState !== states.stopping || !hasLocalStorageValue">Load</button>
+        <button type="button" (click)="reset()" [disabled]="currentState !== states.stopping">Reset</button>
+      </span>
+    </div>
+  </div>
+  
+  <ol formArrayName="timers" class="form-list">
+    <li *ngFor="let timer of timers.controls; let i = index" [formGroupName]="i" class="form-list-item">
+      <div class="row">
+        <label><input type="number" formControlName="seconds" (blur)="onBlurFormatSeconds(timer)" placeholder="Sec" class="row-seconds" inputmode="numeric" min="0" max="3600" step="5"></label>
+        <input type="text" formControlName="memo" (blur)="onBlurFormatMemo(timer)" placeholder="Memo" class="row-memo">
+        <div class="row-controls">
+          <button type="button" (click)="moveUp(i)"    [disabled]="currentState !== states.stopping || i === 0"                class="row-button">↑</button>
+          <button type="button" (click)="moveDown(i)"  [disabled]="currentState !== states.stopping || i >= timers.length - 1" class="row-button">↓</button>
+          <button type="button" (click)="insertRow(i)" [disabled]="currentState !== states.stopping"                           class="row-button">+</button>
+          <button type="button" (click)="removeRow(i)" [disabled]="currentState !== states.stopping || timers.length <= 1"     class="row-button">-</button>
         </div>
       </div>
     </li>
   </ol>
 </form>
-
-<div class="control-buttons">
-  <span class="control-buttons-group">
-    <button type="button" (click)="start()"   [disabled]="currentState === states.starting || timersForm.invalid">Start</button>
-    <button type="button" (click)="stop()"    [disabled]="currentState === states.stopping">Stop</button>
-    <button type="button" (click)="restart()" [disabled]="currentState === states.starting || timersForm.invalid">ReStart</button>
-  </span>
-  <span class="control-buttons-group">
-    <button type="button" (click)="back()" [disabled]="currentState !== states.starting || face.currentIndex === 0">Back</button>
-    <button type="button" (click)="next()" [disabled]="currentState !== states.starting || face.currentIndex === timers.length - 1">Next</button>
-  </span>
-  <span class="control-buttons-group">
-    <button type="button" (click)="save()"  [disabled]="currentState !== states.stopping || timersForm.invalid">Save</button>  <!-- Save・Load で LocalStorage に保存・ロードしたい -->
-    <button type="button" (click)="load()"  [disabled]="currentState !== states.stopping || !hasLocalStorageValue">Load</button>
-    <button type="button" (click)="reset()" [disabled]="currentState !== states.stopping">Reset</button>
-  </span>
-</div>
-
-<hr>
-
-<div class="face-time">{{ face.minutes }} : {{ face.seconds }}</div>
-<div class="face-memo" *ngIf="face.currentIndex != null">
-  [{{ face.currentIndex + 1 }}]
-  {{ face.memo }}
-</div>

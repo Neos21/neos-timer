@@ -1,3 +1,7 @@
+/* 
+ * 全般
+ * ==================================================================================================== */
+
 /*
  * Font made from oNline Web Fonts is licensed by CC BY 3.0 http://www.onlinewebfonts.com
  * https://www.onlinewebfonts.com/download/84cb021d5f9af287ffff84b61beef6dc
@@ -14,7 +18,6 @@
        url("https://db.onlinewebfonts.com/t/84cb021d5f9af287ffff84b61beef6dc.svg#clockicons") format("svg");  /* iOS 4.1- */
 }
 
-/* 全般 */
 *, ::before, ::after {
   box-sizing: border-box;
 }
@@ -26,27 +29,30 @@ html {
   overflow-wrap: break-word;
   text-decoration-skip-ink: none;
   -webkit-text-decoration-skip: objects;
-  line-height: 1.5;
+  line-height: 1;
   background: #fff;
+  white-space: nowrap;
   cursor: default;
 }
 
 body {
   margin: 0;
-  padding: .5rem !important;
+  padding: 0 !important;
 }
 
-/* フォーム部品 */
-input, button {
+input,
+button {
   margin: 0;
   padding: .1rem .5rem;
+  color: inherit;
   font-size: 16px;
   outline: 0;
   border: 1px solid #c0c0c0;
   border-radius: 4px;
 }
 
-input:hover, input:focus, button:hover, button:focus {
+input:hover , input:focus,
+button:hover, button:focus {
   border-color: #909090;
 }
 
@@ -64,6 +70,7 @@ button:hover, button:focus {
 }
 
 button[disabled] {
+  color: #909090;
   background: #dcdcdc;
   cursor: not-allowed;
 }
@@ -72,121 +79,160 @@ button[disabled]:hover, button[disabled]:focus {
   background: #d0d0d0;
 }
 
-/* ヘッダ */
-#header {
+
+/* 
+ * Sticky
+ * ==================================================================================================== */
+
+.sticky {
+  position: sticky;
+  top: 0;
+  padding: .5rem;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) .5rem);
+}
+
+
+/* 
+ * ヘッダ
+ * ==================================================================================================== */
+
+.header {
   overflow: hidden;
   display: grid;
-  grid-template-columns: repeat(2,auto);
+  grid-template-columns: repeat(2, auto);
   justify-content: space-between;
   align-items: center;
   column-gap: .5rem;
-  line-height: 1;
-  white-space: nowrap;
   background: var(--nn-colour-blue);
 }
 
-#header h1 {
+.header > .header-title {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: .8rem;
 }
 
-#header div {
-  font-size: .85rem;
+.header > .header-link {
+  font-size: .8rem;
 }
 
-#header a {
+.header a {
   color: #009;
   text-decoration: none;
 }
 
-#header a:hover, #header a:focus {
+.header a:hover,
+.header a:focus {
   text-decoration: underline;
 }
 
-/* フォーム */
-ol {
-  margin: 1rem 0;
+
+/* 
+ * 時計プレビュー表示
+ * ==================================================================================================== */
+
+.face-time {
+  padding-top: .5rem;
+  font-family: clockicons, monospace;
+  font-size: 8rem;
+  text-align: center;
+  user-select: none;
+}
+
+/* FIXME : もっと画面サイズに合わせてリニアにサイズ変更したいけど面倒臭いので諦める */
+@media (min-width: 960px) {
+  .face-time {
+    font-size: 16rem;
+  }
+}
+
+body.alarm .face-time {
+  color: #f00;
+}
+
+.face-memo {
+  overflow: hidden;
+  padding-bottom: 1rem;
+  text-align: center;
+  text-overflow: ellipsis;
+}
+
+
+/* 
+ * ボタン類
+ * ==================================================================================================== */
+
+.controls {
+  overflow-x: auto;
+  padding-bottom: .5rem;
+  text-align: center;
+}
+
+.controls > .control-group:not(:first-child) {
+  margin-left: 1rem;
+}
+
+.controls > .control-group > button:not(:first-child) {
+  margin-left: .25rem;
+}
+
+.controls > .control-group > label > input[type="radio"] {
+  margin-right: .2rem;
+}
+
+.controls > .control-group > label:last-child > input[type="radio"] {
+  margin-left: .4rem;
+}
+
+
+/*
+ * フォーム : リスト
+ * ==================================================================================================== */
+
+/* ol */
+.form-list {
+  margin: 0 .5rem 2rem;
   padding-left: 2rem;
 }
 
-/* フォーム1行 */
-li:not(:last-child) {
+/* li フォーム1行 */
+.form-list > .form-list-item:not(:last-child) {
   margin-bottom: .15rem;
 }
 
-.form-row {
+/* ol.form-list > li.form-list-item > div.row */
+.row {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 4rem 1fr auto;
   column-gap: .5rem;
 }
 
 /* 秒数入力欄 */
-label {
-  padding-right: .2rem;
-}
-
-.form-row-seconds {
-  width: 5em;
+.row > label > .row-seconds {
+  width: 4rem;
   text-align: right;
 }
 
-.form-row-seconds.ng-invalid {
+.row > label > .row-seconds.ng-invalid {
   border-color: #f00;
 }
 
 /* メモ入力欄 */
-.form-row-memo {
+.row > .row-memo {
   width: 100%;
+  min-width: 6rem;
 }
 
 /* 1行のボタン類 */
-.form-row-buttons {
+.row > .row-controls {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   column-gap: .2rem;
 }
 
-.form-row-button {
-  width: 2em;
+/* button */
+.row > .row-controls > .row-button {
+  width: 1.8em;
   padding-right: 0;
   padding-left : 0;
   text-align: center;
-}
-
-/* ボタン類の間隔をイイカンジに開ける */
-.control-buttons {
-  overflow-x: auto;
-  white-space: nowrap;
-}
-
-.control-buttons .control-buttons-group:not(:first-child) {
-  margin-left: 1rem;
-}
-
-.control-buttons-group button:not(:first-child) {
-  margin-left: .25rem;
-}
-
-/* 罫線 */
-hr {
-  margin: 2rem 0 1.5rem;
-  border: 0;
-  border-bottom: 1px solid #c0c0c0;
-}
-
-/* 時計プレビュー表示 */
-.face-time {
-  font-family: clockicons, monospace;
-  font-size: 7rem;
-  text-align: center;
-  line-height: 1;
-  white-space: nowrap;
-  user-select: none;
-}
-
-.face-memo {
-  overflow: hidden;
-  text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
